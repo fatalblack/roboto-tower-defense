@@ -1,0 +1,7 @@
+public enum EnemyCodes
+{
+	ROBOTSPY = 1,
+	ROBOTSOLDIER = 2,
+	ROBOTEXPLORER = 3,
+	ROBOTTANK = 4
+}
