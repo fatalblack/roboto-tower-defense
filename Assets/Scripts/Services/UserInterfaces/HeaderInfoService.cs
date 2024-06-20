@@ -32,6 +32,12 @@ public class HeaderInfoService : MonoBehaviour
         SetMoneyValue();
         SetWaveBoxLine1TextValue();
         SetWaveBoxLine2TextValue();
+
+		// if the game is not started must show the start button
+		if (!gameManager.GetGameStarted() && !startButton.activeSelf)
+		{
+            startButton.SetActive(true);
+        }
     }
 
     public void StartGame()

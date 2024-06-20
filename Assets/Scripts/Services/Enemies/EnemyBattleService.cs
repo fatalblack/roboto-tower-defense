@@ -11,7 +11,6 @@ public class EnemyBattleService : MonoBehaviour
     private Enemy enemy;
     private EnemyStatsResult enemyStats;
     private GameManager gameManager;
-    private Guid currentUserId;
     private Directions? lastRotationDirection;
 
     // Start is called before the first frame update
@@ -20,9 +19,6 @@ public class EnemyBattleService : MonoBehaviour
         gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
 
         enemy = gameManager.enemyDataService.GetByCodeAsync(enemyCode).Result;
-
-        // gets the current user id
-        currentUserId = gameManager.GetCurrentPlayerId();
 
         // recalculate stats
         RecalculateAll();
@@ -63,7 +59,7 @@ public class EnemyBattleService : MonoBehaviour
 		if (enemyStats.Health <= 0)
 		{
             // gives to the player the reward gold
-            _ = gameManager.playerDataService.AddReward(currentUserId, enemyStats.Gold).Result;
+            gameManager.AddMoneyReward(enemyStats.Gold);
 
             // destroy the enemy
             Destroy(gameObject);
@@ -107,13 +103,13 @@ public class EnemyBattleService : MonoBehaviour
 
 			switch (roadBattleService.nextRoadDirection)
 			{
-                case Directions.UP:
+                case Directions.FORWARD:
                     equivalentDegrees = -90f;
                     break;
                 case Directions.RIGHT:
                     equivalentDegrees = 0f;
                     break;
-                case Directions.DOWN:
+                case Directions.BACKWARD:
                     equivalentDegrees = -270f;
                     break;
                 case Directions.LEFT:

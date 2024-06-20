@@ -127,6 +127,12 @@ public class GameManager : MonoBehaviour
     {
         // sets current health
         this.health = health;
+
+		// if health is equal or lower than 0 must mark the game as gamelost
+		if (this.health <= 0)
+		{
+            gameLost = true;
+        }
     }
 
     public int GetMoney()
@@ -139,6 +145,15 @@ public class GameManager : MonoBehaviour
     {
         // sets current money
         this.money = money;
+    }
+
+    public void AddMoneyReward(int money)
+    {
+        // adds reward
+        Player playerResponse = playerDataServiceInjection.AddReward(player.Id, money).Result.Value;
+
+        // sets current money
+        this.money = playerResponse.Gold;
     }
 
     public void SyncMoney()
@@ -197,11 +212,14 @@ public class GameManager : MonoBehaviour
 
     public void MoveToNextStage()
 	{
-        // sets in battle as false
-        inBattle = false;
+		if (!gameLost)
+		{
+            // sets in battle as false
+            inBattle = false;
 
-        // initates the countdown
-        StartCoroutine(StartCountdown());
+            // initates the countdown
+            StartCoroutine(StartCountdown());
+        }
     }
 
     private void CreatePlayer()
