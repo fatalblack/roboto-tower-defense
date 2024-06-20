@@ -14,7 +14,7 @@ public class TowerBattleService : MonoBehaviour
 
     // private variables
     private bool attacking;
-    private int currentLevelSetted;
+    private int currentLevelSetted = 1;
     private int? currentEnemyAttackedHashCode;
     //private Tower tower;
     private TowerStatsResult towerStats;

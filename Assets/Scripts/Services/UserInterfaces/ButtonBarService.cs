@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class ButtonBarService : MonoBehaviour
 {
-    // public variable
+    // public variables
     public GameObject shopWindow;
     public GameObject towersSelectionWindow;
     public GameObject towerSelectedWindow;
 
+    // private variables
+    GameManager gameManager;
+
     // Start is called before the first frame update
     private void Start()
     {
-        
+        gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -20,6 +23,14 @@ public class ButtonBarService : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.S))
 		{
             ShopToggleVisibility();
+        }
+
+        // if the battle is on, must hide everything
+		if (gameManager.GetInBattle())
+		{
+            ShopHide();
+            TowersSelectionHide();
+            TowerSelectedHide();
         }
     }
 

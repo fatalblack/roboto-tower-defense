@@ -34,10 +34,10 @@ public class TowerSelectionService : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find(nameof(GameManager)).GetComponent<GameManager>();
+        gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
         itemPrefabRT = itemPrefab.GetComponent<RectTransform>();
         contentBoxRT = contentBox.GetComponent<RectTransform>();
-        prefabManager = GameObject.Find(nameof(PrefabManager)).GetComponent<PrefabManager>();
+        prefabManager = GameObject.Find(Tags.PrefabManager).GetComponent<PrefabManager>();
 
         // gets the current user id
         currentUserId = gameManager.GetCurrentPlayerId();
@@ -161,7 +161,10 @@ public class TowerSelectionService : MonoBehaviour
 
     private void CallbackSellItem(PlayerTower playerTower, Tower tower)
 	{
+        // sells tower
         GenericResponse sell = playerTowerDataService.SellAsync(playerTower.Id).Result;
+        // syncs money player
+        gameManager.SyncMoney();
 
         if (sell.IsSucceeded)
         {
@@ -218,7 +221,7 @@ public class TowerSelectionService : MonoBehaviour
             towerBattleService.SetInitialConfiguration();
 
             // calculates and sets the instantiated prefab
-            instantiatedPrefab.transform.localPosition = new Vector3(0f, 0.2f, 0f);
+            instantiatedPrefab.transform.localPosition = new Vector3(0f, 0.1f, 0f);
 
             // hides the tower selection window
             gameObject.SetActive(false);
@@ -250,8 +253,11 @@ public class TowerSelectionService : MonoBehaviour
 
     private void CallbackUpgradeTower(PlayerTower playerTower)
     {
+        // upgrades the tower
         GenericResponse<PlayerTower> upgradedTower = playerTowerDataService.UpgradeAsync(playerTower.Id).Result;
-        
+        // syncs money player
+        gameManager.SyncMoney();
+
         if (upgradedTower.IsSucceeded)
         {
             // sets the upgraded currentTower

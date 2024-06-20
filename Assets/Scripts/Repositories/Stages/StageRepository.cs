@@ -16,15 +16,26 @@ public class StageRepository : IStageRepository
 	{
 		// gets Stages list from context and return it
 		DataContext dataContext = await dbContext.GetDataContextAsync();
-		return dataContext.Stages.OrderBy(stage => new { stage.WorldId, stage.StageNumber });
+
+		IEnumerable<Stage> stages = dataContext.Stages
+			.OrderBy(stage => stage.WorldId)
+			.ThenBy(stage => stage.StageNumber);
+
+		// return stages
+		return stages;
 	}
 
 	public async Task<IEnumerable<Stage>> GetByWorldIdAsync(Guid worldId)
 	{
 		// gets Stages list by world id from context and return it
 		DataContext dataContext = await dbContext.GetDataContextAsync();
-		return dataContext.Stages
+		
+		IEnumerable<Stage> stages = dataContext.Stages
 			.Where(stage => stage.WorldId == worldId)
-			.OrderBy(stage => stage.StageNumber);
+			.OrderBy(stage => stage.WorldId)
+			.ThenBy(stage => stage.StageNumber);
+
+		// return stages
+		return stages;
 	}
 }

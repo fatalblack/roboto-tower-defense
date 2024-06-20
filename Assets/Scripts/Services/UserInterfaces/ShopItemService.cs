@@ -41,7 +41,7 @@ public class ShopItemService : MonoBehaviour
             .First(component => component.transform.parent.gameObject.CompareTag(Tags.StatCooldownBox));
         statAreaDamageBoxDescription = gameObject.GetComponentsInChildren<TextMeshProUGUI>()
             .First(component => component.transform.parent.gameObject.CompareTag(Tags.StatAreaDamageBox));
-        gameManager = GameObject.Find(nameof(GameManager)).GetComponent<GameManager>();
+        gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
 
         // gets the current user id
         currentUserId = gameManager.GetCurrentPlayerId();
@@ -70,9 +70,13 @@ public class ShopItemService : MonoBehaviour
 
     public void BuyItem()
 	{
+        // buys tower
         GenericResponse<PlayerTower> buy = playerTowerDataService.BuyAsync(currentUserId, tower.Id).Result;
+        // syncs money player
+        gameManager.SyncMoney();
 
-		if (buy.IsSucceeded)
+        // if buy was succeeded shows a success message, if not an error one
+        if (buy.IsSucceeded)
 		{
             EventViewerService.Instance.AddEventSuccess($"Compraste '{tower.Name}' por {tower.Characteristic.BuyCost}");
 		}

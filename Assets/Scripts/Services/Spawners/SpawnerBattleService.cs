@@ -14,6 +14,8 @@ public class SpawnerBattleService : MonoBehaviour
     // private variables
     private GameManager gameManager;
     private IEnumerable<Wave> waves;
+    private bool waveStarted;
+    private bool countdownToNextStageStarted;
 
     // injections
     [Inject] private readonly IWaveDataService waveDataService;
@@ -21,18 +23,65 @@ public class SpawnerBattleService : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        gameManager = GameObject.Find(nameof(GameManager)).GetComponent<GameManager>();
+        gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
 
         waves = waveDataService.GetByWorldCodeAndStageNumberAsync(worldCode, stageNumber).Result;
 
-        // spawn enemies
-        StartCoroutine(SpawnEnemies());
+        // sets wave started as false by default
+        waveStarted = false;
+
+        // sets countdownToNextStageStarted as false by default
+        countdownToNextStageStarted = false;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        
+        // if conditions match starts the wave
+		if (
+            gameManager.GetGameStarted() &&
+            gameManager.GetCurrentWorldCode() == worldCode &&
+            gameManager.GetCurrentStageNumber() == stageNumber &&
+            !waveStarted)
+		{
+            StartWave();
+        }
+
+        // if conditions match must evaluate move to next stage
+        if (
+            gameManager.GetGameStarted() &&
+            gameManager.GetCurrentWorldCode() == worldCode &&
+            gameManager.GetCurrentStageNumber() == stageNumber &&
+            waveStarted &&
+            !countdownToNextStageStarted)
+        {
+            MoveToNextStage();
+        }
+    }
+
+    private void StartWave()
+	{
+        // spawn enemies
+        StartCoroutine(SpawnEnemies());
+
+        // sets wave started as true
+        waveStarted = true;
+    }
+
+    private void MoveToNextStage()
+	{
+        // gets if any enemy is alive
+        bool anyEnemyAlive = gameObject.GetComponentsInChildren<Transform>().Any(child => child.gameObject.CompareTag(Tags.Enemy));
+
+        // if the spawner has not enemies must move to next stage
+        if (!anyEnemyAlive)
+        {
+            // sets countdownToNextStageStarted as true
+            countdownToNextStageStarted = true;
+
+            // moves to next stage
+            gameManager.MoveToNextStage();
+        }
     }
 
     private IEnumerator SpawnEnemies()

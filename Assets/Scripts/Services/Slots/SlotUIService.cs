@@ -20,7 +20,7 @@ public class SlotUIService : MonoBehaviour
     private void Start()
     {
         slotBattleService = GetComponent<SlotBattleService>();
-        gameManager = GameObject.Find(nameof(GameManager)).GetComponent<GameManager>();
+        gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
         inBattle = gameManager.GetInBattle();
         isEmptySlot = slotBattleService.GetIsEmptySlot();
     }

@@ -23,5 +23,6 @@ public class GameInstaller : MonoInstaller
         Container.Bind<IPlayerTowerDataService>().To<PlayerTowerDataService>().AsSingle();
         Container.Bind<IEnemyDataService>().To<EnemyDataService>().AsSingle();
         Container.Bind<IWaveDataService>().To<WaveDataService>().AsSingle();
+        Container.Bind<IWorldDataService>().To<WorldDataService>().AsSingle();
     }
 }

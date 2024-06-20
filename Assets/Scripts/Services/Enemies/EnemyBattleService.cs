@@ -17,7 +17,7 @@ public class EnemyBattleService : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        gameManager = GameObject.Find(nameof(GameManager)).GetComponent<GameManager>();
+        gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
 
         enemy = gameManager.enemyDataService.GetByCodeAsync(enemyCode).Result;
 

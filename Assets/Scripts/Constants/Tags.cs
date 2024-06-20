@@ -36,5 +36,12 @@ public static class Tags
 
     public const string ItemImage = "ItemImage";
 
-    public const string ItemDescription = "ItemDescription"; 
+    public const string ItemDescription = "ItemDescription";
+
+    // game objects
+    public const string GameManager = "GameManager";
+
+    public const string SpriteManager = "SpriteManager";
+
+    public const string PrefabManager = "PrefabManager";
 }

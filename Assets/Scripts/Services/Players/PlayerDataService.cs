@@ -86,9 +86,11 @@ public class PlayerDataService : IPlayerDataService
 
 		// gets the next stage for the current world and set this one if exists
 		// if was in the last stage must find the first stage of the next world
-		Stage nextStage =
-			stages.FirstOrDefault(stage => stage.WorldId == currentWorldId && stage.StageNumber > currentStageNumber) ??
-			stages.FirstOrDefault(stage => stage.WorldId == nextWorldId);
+		Stage nextStage = stages.FirstOrDefault(stage => stage.WorldId == currentWorldId && stage.StageNumber > currentStageNumber);
+		if (nextStage == null)
+		{
+			nextStage = stages.FirstOrDefault(stage => stage.WorldId == nextWorldId);
+		}	
 
 		// if can't find a stage it means the player won whole game
 		if (nextStage == null)

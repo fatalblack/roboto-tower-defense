@@ -43,7 +43,7 @@ public class TowerSelectionItemService : MonoBehaviour
         statAreaDamageBoxDescription = gameObject.GetComponentsInChildren<TextMeshProUGUI>()
             .First(component => component.transform.parent.gameObject.CompareTag(Tags.StatAreaDamageBox));
         gameManager = GameManager.Instance;
-        spriteManager = GameObject.Find(nameof(SpriteManager)).GetComponent<SpriteManager>();
+        spriteManager = GameObject.Find(Tags.SpriteManager).GetComponent<SpriteManager>();
         playerTowerId = playerTower.Id;
         level = playerTower.TowerLevel;
 

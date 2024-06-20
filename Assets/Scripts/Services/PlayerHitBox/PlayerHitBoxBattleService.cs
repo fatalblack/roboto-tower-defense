@@ -14,7 +14,7 @@ public class PlayerHitBoxBattleService : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        gameManager = GameObject.Find(nameof(GameManager)).GetComponent<GameManager>();
+        gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
 
         // gets the current user id
         currentUserId = gameManager.GetCurrentPlayerId();
@@ -33,6 +33,9 @@ public class PlayerHitBoxBattleService : MonoBehaviour
 		{
             // damages player
             Player player = playerDataService.Damage(currentUserId).Result.Value;
+
+            // updates health on gamemanager
+            gameManager.SetHealth(player.Health);
 
             // destroys enemy
             Destroy(other.gameObject);
