@@ -152,8 +152,8 @@ public class DbContext : IDbContext
 			{
 				Id = Guid.NewGuid(),
 				Code = WorldCodes.MUNDO1,
-				Name = "Planicies",
-				Description = "Un mundo algo hostil, pero nada con lo que no puedas lidiar.",
+				Name = "Pradera",
+				Description = "El lugar menos pensado para encontrar robots enemigos.",
 				Order = 1,
 				WidthBlocks = 8,
 				HeightBlocks = 8,
