@@ -230,7 +230,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartCountdown()
 	{
-		for (int i = GameDefaults.coundownTimeInSeconds; i >= 0; i--)
+		for (int i = GameDefaults.countdownTimeInSeconds; i >= 0; i--)
 		{
             // if the countdown reach 0 move to next stage
 			if (i == 0)

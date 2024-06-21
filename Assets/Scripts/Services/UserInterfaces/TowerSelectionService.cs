@@ -12,7 +12,6 @@ public class TowerSelectionService : MonoBehaviour
     public GameObject contentBox;
     public GameObject itemPrefab;
     public GameObject currentSlot;
-    public Directions towerPointOfView;
     public int indexColumn = 1;
     public int indexRow = 1;
     public float paddingBetweenItems = 10f;

@@ -6,7 +6,9 @@ public static class GameDefaults
 
 	public static float shootingAreaBase = 6f;
 
-	public static int coundownTimeInSeconds = 20;
+	public static int countdownTimeInSeconds = 20;
 
 	public static float enemyMoveSpeedFactor = 0.01f;
+
+	public static float defaultTowerInitAngle = -90f;
 }

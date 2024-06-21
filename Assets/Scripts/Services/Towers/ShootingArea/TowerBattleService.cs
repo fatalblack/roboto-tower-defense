@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,27 +13,34 @@ public class TowerBattleService : MonoBehaviour
 
     // private variables
     private int currentLevelSetted = 1;
-    private int? currentEnemyAttackedHashCode;
     private TowerStatsResult towerStats;
-    private GameObject currentEnemyTargeted;
     private List<GameObject> enemiesInShootingArea;
     private Animator towerAnimator;
     private AudioSource audioSource;
+    private GameManager gameManager;
+    private float lastRotatedAngle;
 
 	private void Start()
 	{
-        audioSource = GameObject.FindGameObjectWithTag(Tags.AudioSourceSound).GetComponent<AudioSource>();
-	}
+        audioSource = GetComponent<AudioSource>();
+        gameManager = GameObject.FindGameObjectWithTag(Tags.GameManager).GetComponent<GameManager>();
+    }
 
 	// Update is called once per frame
 	private void Update()
     {
-        // if the tower level changed must recalculate stats and set the radio
+		// if the tower level changed must recalculate stats and set the radio
 		if (currentLevelSetted != level)
 		{
             // recalculate stats, area and others
             RecalculateAll();
-        }   
+        }
+
+		// if the battle is off and remains an enemy in the list must be clean this one
+		if (!gameManager.GetInBattle() && enemiesInShootingArea.Any())
+		{
+            enemiesInShootingArea = new List<GameObject>();
+        }
     }
 
 	private void OnTriggerEnter(Collider other)
@@ -53,12 +59,14 @@ public class TowerBattleService : MonoBehaviour
 	{
         enemiesInShootingArea = new List<GameObject>();
         towerAnimator = towerAssigned.GetComponent<Animator>();
-
-        // by default we don't targeted an enemy
-        currentEnemyTargeted = null;
+        lastRotatedAngle = 0f;
 
         // recalculate stats, area and others
         RecalculateAll();
+
+        // starts the attack event
+        float attackIntervalInSeconds = TowerCalculations.CalculateAttackIntervalInSeconds(towerStats.AttacksPerSecond);
+        InvokeRepeating(nameof(Attack), 0f, attackIntervalInSeconds);
     }
 
 	private void UpdateShootingAreaSize()
@@ -85,15 +93,6 @@ public class TowerBattleService : MonoBehaviour
 		if (collider.gameObject.CompareTag(Tags.Enemy))
 		{
             UpdateEnemiesInShootingArea(collider.gameObject, true);
-
-			if (currentEnemyAttackedHashCode == null)
-			{
-                currentEnemyAttackedHashCode = collider.gameObject.GetHashCode();
-                currentEnemyTargeted = collider.gameObject;
-
-                // attack
-                StartCoroutine(Attack());
-            }
         }
     }
 
@@ -106,18 +105,22 @@ public class TowerBattleService : MonoBehaviour
         }
     }
 
-    private IEnumerator Attack()
+    private void Attack()
 	{
-		while (currentEnemyTargeted != null)
+        GameObject enemyToAttack = enemiesInShootingArea.FirstOrDefault();
+
+        if (enemyToAttack != null)
         {
-            // plays shooting sound
-            PlayShootingAudio();
+            RotateTowerToEnemy();
 
             // activate the animator trigger to perform an attack
             towerAnimator.SetTrigger(AnimatorParameters.Shoot);
 
+            // plays shooting sound
+            PlayShootingAudio();
+
             // find EnemyBattleService component who manages the enemy damage
-            EnemyBattleService enemyBattleService = currentEnemyTargeted.GetComponent<EnemyBattleService>();
+            EnemyBattleService enemyBattleService = enemyToAttack.GetComponent<EnemyBattleService>();
 
             // apply damage equal than tower attack
             float enemyCurrentHealth = enemyBattleService.TakeDamage(towerStats.Attack);
@@ -126,44 +129,9 @@ public class TowerBattleService : MonoBehaviour
             if (enemyCurrentHealth <= 0)
             {
                 // remove the enemy from the list EnemiesInShootingArea
-                UpdateEnemiesInShootingArea(currentEnemyTargeted, false);
-                // reset attack status
-                ResetAttackStatus();
+                UpdateEnemiesInShootingArea(enemyToAttack, false);
             }
-
-            VerifyAndChangeCurrentTarget();
-
-            // calculates AttackIntervalInSeconds
-            float attackIntervalInSeconds = TowerCalculations.CalculateAttackIntervalInSeconds(towerStats.AttacksPerSecond);
-
-            // delay so many seconds as tower attack per seconds
-            yield return new WaitForSeconds(attackIntervalInSeconds);
         }
-    }
-
-    private void VerifyAndChangeCurrentTarget()
-	{
-        // if we have another enemy in the list must attack it
-        if (enemiesInShootingArea.Any())
-        {
-            // set the first enemy in the list EnemiesInShootingArea as currentEnemyTargeted
-            currentEnemyTargeted = enemiesInShootingArea.First();
-
-            // sets the last enemy attacked hash code to identy in the OnTriggerExit event
-            currentEnemyAttackedHashCode = currentEnemyTargeted.GetHashCode();
-        }
-        else
-        {
-            // when no enemies are in list EnemiesInShootingArea must reset the attack status
-            ResetAttackStatus();
-        }
-    }
-
-    private void ResetAttackStatus()
-	{
-        // reset all the variables related to attack
-        currentEnemyTargeted = null;
-        currentEnemyAttackedHashCode = null;
     }
 
     private void UpdateEnemiesInShootingArea(GameObject enemy, bool isEnter)
@@ -185,4 +153,20 @@ public class TowerBattleService : MonoBehaviour
         audioSource.clip = shootingSound;
         audioSource.Play();
 	}
+
+    private void RotateTowerToEnemy()
+	{
+        GameObject currentEnemy = enemiesInShootingArea.First();
+        
+        // calculates the degree angle rotation
+        float angleRotation = RotationCalculations.CalculateTowerAngleByEnemyPosition(
+            towerAssigned.transform.position,
+            currentEnemy.transform.position);
+
+        // change the tower y axis angle reverting the last angle rotated
+        towerAssigned.transform.Rotate(Vector3.up, angleRotation - lastRotatedAngle, Space.World);
+
+        // save the last rotated angle
+        lastRotatedAngle = angleRotation;
+    }
 }
