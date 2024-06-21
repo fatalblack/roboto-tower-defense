@@ -172,13 +172,11 @@ public class TowerBattleService : MonoBehaviour
 		if (isEnter)
 		{
             enemiesInShootingArea.Add(enemy);
-            print($"entró {enemy.GetHashCode()}");
         }
         // if its Exit trigger event remove the enemy from the list
 		else
 		{
             enemiesInShootingArea.Remove(enemy);
-            print($"salió {enemy.GetHashCode()}");
         }
     }
 
