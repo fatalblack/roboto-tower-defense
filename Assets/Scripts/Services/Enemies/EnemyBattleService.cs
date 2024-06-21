@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class EnemyBattleService : MonoBehaviour
@@ -6,6 +5,7 @@ public class EnemyBattleService : MonoBehaviour
     // public variables
     public EnemyCodes enemyCode;
     public int level;
+    public float yAxis;
 
     // private variables
     private Enemy enemy;
@@ -79,8 +79,12 @@ public class EnemyBattleService : MonoBehaviour
 
             // calculates the destiny position to move the enemy
             Vector3 destinyPosition = nextRoad.transform.position - transform.position;
+            destinyPosition = new Vector3(
+                destinyPosition.x * GameDefaults.enemyMoveSpeedFactor,
+                yAxis,
+                destinyPosition.z * GameDefaults.enemyMoveSpeedFactor);
             // moves the enemy
-            transform.Translate(destinyPosition * 0.03f, Space.World);
+            transform.Translate(destinyPosition, Space.World);
 
             // rotates the enemy to the required position if this change of direction
             SetRotationDirection(roadBattleService);

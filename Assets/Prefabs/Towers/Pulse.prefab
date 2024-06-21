@@ -242,3 +242,4 @@ MonoBehaviour:
   towerCode: 2
   level: 1
   towerAssigned: {fileID: 1482079521844035024}
+  shootingSound: {fileID: 8300000, guid: 92d35fe1c59bbd14eaee9e3d3b54cea7, type: 3}

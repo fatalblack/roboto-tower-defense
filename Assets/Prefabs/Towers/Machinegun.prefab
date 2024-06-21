@@ -97,6 +97,7 @@ MonoBehaviour:
   towerCode: 3
   level: 1
   towerAssigned: {fileID: 8453580519517974051}
+  shootingSound: {fileID: 8300000, guid: 7b889162724f05c4f95da46adbd50ef7, type: 3}
 --- !u!1001 &8453580519517874307
 PrefabInstance:
   m_ObjectHideFlags: 0

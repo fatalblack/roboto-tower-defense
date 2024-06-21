@@ -44,4 +44,10 @@ public static class Tags
     public const string SpriteManager = "SpriteManager";
 
     public const string PrefabManager = "PrefabManager";
+
+    // audio sources
+    public const string AudioSourceSound = "AudioSourceSound";
+
+    public const string AudioSourceMusic = "AudioSourceMusic";
+    
 }

@@ -92,12 +92,12 @@ public class SpawnerBattleService : MonoBehaviour
             // gets the enemy
             GameObject enemyPrefab = GetEnemyPrefab(wave.Enemy.Code);
 
-            // sets enemy position
-            enemyPrefab.transform.position = GetSpawnPosition();
-
             // instantiate x enemies where x is EnemyQuantity
-            for (int i = 0; i < wave.EnemyQuantity - 1; i++)
+            for (int i = 0; i < wave.EnemyQuantity; i++)
 			{
+                // sets enemy position
+                enemyPrefab.transform.position = GetSpawnPosition();
+
                 // instantiate the enemy into the spawn
                 Instantiate(enemyPrefab, transform);
 

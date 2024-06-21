@@ -25,6 +25,8 @@ TagManager:
   - GameManager
   - SpriteManager
   - PrefabManager
+  - AudioSourceSound
+  - AudioSourceMusic
   layers:
   - Default
   - TransparentFX
