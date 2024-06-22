@@ -1,5 +1,108 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2499371986339569332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 857316338912148516}
+  m_Layer: 0
+  m_Name: AmmoSpawners
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &857316338912148516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2499371986339569332}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9059289027452837549}
+  m_Father: {fileID: 7306726819542519723}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &3578940914437810951
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 857316338912148516}
+    m_Modifications:
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.721
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963720567565674888, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+      propertyPath: m_Name
+      value: AmmoSpawner
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+--- !u!1 &5840862199076618895 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6963720567565674888, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+  m_PrefabInstance: {fileID: 3578940914437810951}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9059289027452837549 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5482002883954537898, guid: 87e4f5a45e8c1304394efc1c00d378ee, type: 3}
+  m_PrefabInstance: {fileID: 3578940914437810951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7306726819542127915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +197,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 400000, guid: 641768935a2846d41b42d69f28d50947, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8961658177998178656}
+    - targetCorrespondingSourceObject: {fileID: 400000, guid: 641768935a2846d41b42d69f28d50947, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 857316338912148516}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 641768935a2846d41b42d69f28d50947, type: 3}
       insertIndex: -1
@@ -211,6 +317,12 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3862633118950470467, guid: 0c3647c30eeddb242a62993eabc8eb2e, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5885340342968159993}
+    - targetCorrespondingSourceObject: {fileID: 3862633118950470467, guid: 0c3647c30eeddb242a62993eabc8eb2e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6837096811933007194}
+    - targetCorrespondingSourceObject: {fileID: 3862633118950470467, guid: 0c3647c30eeddb242a62993eabc8eb2e, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 6534339500623982225}
   m_SourcePrefab: {fileID: 100100000, guid: 0c3647c30eeddb242a62993eabc8eb2e, type: 3}
 --- !u!1 &5917970488419498028 stripped
@@ -218,6 +330,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3862633118950470467, guid: 0c3647c30eeddb242a62993eabc8eb2e, type: 3}
   m_PrefabInstance: {fileID: 7474302572099963759}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5885340342968159993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5917970488419498028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30619792d4dca7a42939d271b0a2acc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerCode: 1
+  level: 1
+  towerAssigned: {fileID: 7306726819542160267}
+  shootingSound: {fileID: 8300000, guid: 947719fd38845824ba3638af9d8e4e54, type: 3}
+  ammoSpawners:
+  - {fileID: 5840862199076618895}
+  ammoPrefab: {fileID: 1784200373561354, guid: cfe59176cc6a86745b076989f8e135f0, type: 3}
+--- !u!114 &6837096811933007194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5917970488419498028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b216b153dc24d24419a6e764d26f0fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &6534339500623982225
 AudioSource:
   m_ObjectHideFlags: 0

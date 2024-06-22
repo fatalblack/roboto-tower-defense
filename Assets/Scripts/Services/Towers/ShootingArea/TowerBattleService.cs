@@ -10,6 +10,8 @@ public class TowerBattleService : MonoBehaviour
     public GameObject towerAssigned;
     public Tower tower;
     public AudioClip shootingSound;
+    public GameObject[] ammoSpawners;
+    public GameObject ammoPrefab;
 
     // private variables
     private int currentLevelSetted = 1;
@@ -111,6 +113,10 @@ public class TowerBattleService : MonoBehaviour
 
         if (enemyToAttack != null)
         {
+            // spawn ammo
+            SpawnAmmo();
+
+            // rotate tower facing the enemy
             RotateTowerToEnemy();
 
             // activate the animator trigger to perform an attack
@@ -168,5 +174,35 @@ public class TowerBattleService : MonoBehaviour
 
         // save the last rotated angle
         lastRotatedAngle = angleRotation;
+    }
+
+    private void SpawnAmmo()
+	{
+		if (ammoSpawners == null || ammoPrefab == null)
+		{
+            return;
+		}
+
+		// if the tower has not enemies to target don't need to do anything
+		if (!enemiesInShootingArea.Any())
+		{
+            return;
+		}
+
+        // must spawn an ammo from each spawner
+        foreach(GameObject ammoSpawner in ammoSpawners)
+		{
+            // instance the ammo
+            GameObject instantiatePrefab = Instantiate(ammoPrefab, ammoSpawner.transform, false);
+            // get AmmoBattleService to set the ammo position
+            AmmoBattleService ammoBattleService = instantiatePrefab.GetComponent<AmmoBattleService>();
+            Vector3 targetPosition = enemiesInShootingArea.First().transform.position;
+
+            // set speed ammo based in towercode
+            float ammoSpeed = towerCode == TowerCodes.ROCKET ? GameDefaults.ammoRocketMoveSpeedFactor : GameDefaults.ammoBulletMoveSpeedFactor;
+
+            // initiate
+            ammoBattleService.Initiate(targetPosition, ammoSpeed);
+        }
     }
 }

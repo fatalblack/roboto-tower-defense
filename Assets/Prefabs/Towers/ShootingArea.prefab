@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 6802627937855170719}
   - component: {fileID: 4090212898503412228}
   - component: {fileID: 8282357267050643998}
-  - component: {fileID: 1436685052000338460}
-  - component: {fileID: 8745396207694988870}
   m_Layer: 0
   m_Name: ShootingArea
   m_TagString: ShootingArea
@@ -34,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6802627937855170719
 MeshFilter:
@@ -108,31 +106,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1436685052000338460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3862633118950470467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30619792d4dca7a42939d271b0a2acc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towerCode: 1
-  level: 1
-  towerAssigned: {fileID: 0}
-  shootingSound: {fileID: 8300000, guid: 929fd214252d7034d93c9463bf63e091, type: 3}
---- !u!114 &8745396207694988870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3862633118950470467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b216b153dc24d24419a6e764d26f0fe7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

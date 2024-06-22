@@ -11,4 +11,8 @@ public static class GameDefaults
 	public static float enemyMoveSpeedFactor = 0.01f;
 
 	public static float defaultTowerInitAngle = -90f;
+
+	public static float ammoRocketMoveSpeedFactor = 3f;
+
+	public static float ammoBulletMoveSpeedFactor = 5.5f;
 }
