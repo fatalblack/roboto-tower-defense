@@ -5,7 +5,8 @@ public class EnemyBattleService : MonoBehaviour
     // public variables
     public EnemyCodes enemyCode;
     public int level;
-    public float yAxis;
+    public ParticleSystem shootParticleSystem;
+    public ParticleSystem destroyParticleSystem;
 
     // private variables
     private Enemy enemy;
@@ -39,6 +40,9 @@ public class EnemyBattleService : MonoBehaviour
 
 	public float TakeDamage(float damage)
 	{
+        // shows particle
+        ShowShootParticle();
+
         EventViewerService.Instance.AddEventInfo($"Dañaste a '{enemy.Name}' por {damage}");
         // damage the enemy for the given
         enemyStats.Health -= damage;
@@ -58,6 +62,9 @@ public class EnemyBattleService : MonoBehaviour
         // if the enemy health is 0 must be destroyed
 		if (enemyStats.Health <= 0)
 		{
+            // show particle
+            ShowDestroyParticle();
+
             // gives to the player the reward gold
             gameManager.AddMoneyReward(enemyStats.Gold);
 
@@ -81,7 +88,7 @@ public class EnemyBattleService : MonoBehaviour
             Vector3 destinyPosition = nextRoad.transform.position - transform.position;
             destinyPosition = new Vector3(
                 destinyPosition.x * GameDefaults.enemyMoveSpeedFactor,
-                yAxis,
+                0,
                 destinyPosition.z * GameDefaults.enemyMoveSpeedFactor);
             // moves the enemy
             transform.Translate(destinyPosition, Space.World);
@@ -125,4 +132,44 @@ public class EnemyBattleService : MonoBehaviour
             transform.Rotate(Vector3.up, equivalentDegrees);
         }
 	}
+
+    private void ShowShootParticle()
+	{
+        // if shootParticleSystem was not set don't show particles and go out
+        if (shootParticleSystem == null)
+		{
+            return;
+		}
+
+        // set position
+        shootParticleSystem.transform.position = transform.position;
+
+        // plays the particles
+        shootParticleSystem.Play(true);
+    }
+
+    private void ShowDestroyParticle()
+    {
+        // if destroyParticleSystem was not set don't show particles and go out
+        if (destroyParticleSystem == null)
+        {
+            return;
+        }
+
+        // instantiate new destroyParticle
+        GameObject instantiatedParticle = Instantiate(destroyParticleSystem.gameObject);
+        // set position
+        instantiatedParticle.transform.position = destroyParticleSystem.transform.position;
+
+        // gets ParticleSystem from instantiatedParticle
+        ParticleSystem particleSystem = instantiatedParticle.GetComponent<ParticleSystem>();
+        // gets AudioSource from instantiatedParticle
+        AudioSource audioSource = instantiatedParticle.GetComponent<AudioSource>();
+
+        // plays the particles
+        particleSystem.Play(true);
+
+        // plays audio clip
+        audioSource.Play();
+    }
 }
