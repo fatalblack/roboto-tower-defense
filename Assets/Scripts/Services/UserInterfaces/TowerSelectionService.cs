@@ -57,7 +57,7 @@ public class TowerSelectionService : MonoBehaviour
                 .Where(playerTower => playerTower.IndexColumn == indexColumn && playerTower.IndexRow == indexRow)
                 .ToList();
 		}
-		else
+		else if(indexColumn > 0 && indexRow > 0)
 		{
             // filter only the one without a slot assigned
             playerTowers = playerTowers.Where(tower => !tower.IndexColumn.HasValue && !tower.IndexRow.HasValue).ToList();
@@ -189,6 +189,10 @@ public class TowerSelectionService : MonoBehaviour
 				{
                     CallbackRemoveTowerPosition(playerTower);
                 }
+			}
+			if(playerTowers.Any() || !onlySelected)
+			{
+                CallbackRemoveTowerPositionFromSlot(playerTower.IndexColumn, playerTower.IndexRow);
             }
         }
         else
@@ -220,7 +224,7 @@ public class TowerSelectionService : MonoBehaviour
             towerBattleService.SetInitialConfiguration();
 
             // calculates and sets the instantiated prefab
-            instantiatedPrefab.transform.localPosition = new Vector3(0f, 0.1f, 0f);
+            instantiatedPrefab.transform.localPosition = new Vector3(0f, 0.5f, 0f);
 
             // hides the tower selection window
             gameObject.SetActive(false);
@@ -248,6 +252,34 @@ public class TowerSelectionService : MonoBehaviour
 
         // hides the tower selection window
         gameObject.SetActive(false);
+    }
+
+    private void CallbackRemoveTowerPositionFromSlot(int? indexColumn, int? indexRow)
+    {
+        // if the tower has indexs must find a slot with the same indexs
+		if (indexColumn.HasValue && indexRow.HasValue)
+		{
+            GameObject[] slotsGo = GameObject.FindGameObjectsWithTag(Tags.Slot);
+
+            // find in each slot gameobject
+            foreach (GameObject slotGo in slotsGo)
+            {
+                SlotUIService slotUIService = slotGo.GetComponent<SlotUIService>();
+
+                // if the indexs match must destroy the tower
+                if (slotUIService.indexColumn == indexColumn && slotUIService.indexRow == indexRow)
+                {
+                    GameObject towerGo = slotGo.GetComponentsInChildren<Transform>().FirstOrDefault(component => component.CompareTag(Tags.Tower)).gameObject;
+                    if (towerGo != null)
+                    {
+                        GameObject.Destroy(towerGo);
+                    }
+                }
+            }
+
+            // refresh the list
+            RefreshTowerList();
+        }
     }
 
     private void CallbackUpgradeTower(PlayerTower playerTower)

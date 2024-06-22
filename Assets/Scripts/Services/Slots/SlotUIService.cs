@@ -7,6 +7,8 @@ public class SlotUIService : MonoBehaviour
     // public variables
     public GameObject towersSelectionWindow;
     public GameObject towerSelectedWindow;
+    public GameObject shopWindow;
+    public GameObject towersManagerWindow;
     public int indexColumn = 1;
     public int indexRow = 1;
 
@@ -51,7 +53,10 @@ public class SlotUIService : MonoBehaviour
 
                 // shows the list
                 towersSelectionWindow.SetActive(true);
-			}
+
+                // hides another windows
+                towerSelectedWindow.SetActive(false);
+            }
 			else
 			{
                 TowerSelectionService towerSelectionService = towerSelectedWindow.GetComponent<TowerSelectionService>();
@@ -69,7 +74,14 @@ public class SlotUIService : MonoBehaviour
 
                 // shows the list
                 towerSelectedWindow.SetActive(true);
+
+                // hides another windows
+                towersSelectionWindow.SetActive(false);
             }
+
+            // hides another windows
+            shopWindow.SetActive(false);
+            towersManagerWindow.SetActive(false);
         }
 	}
 

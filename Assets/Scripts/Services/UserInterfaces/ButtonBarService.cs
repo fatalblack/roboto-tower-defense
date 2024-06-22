@@ -4,6 +4,7 @@ public class ButtonBarService : MonoBehaviour
 {
     // public variables
     public GameObject shopWindow;
+    public GameObject towersManagerWindow;
     public GameObject towersSelectionWindow;
     public GameObject towerSelectedWindow;
 
@@ -25,10 +26,17 @@ public class ButtonBarService : MonoBehaviour
             ShopToggleVisibility();
         }
 
+        // if we press T will toggles tower manager window visibility
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TowersManagerToggleVisibility();
+        }
+
         // if the battle is on, must hide everything
-		if (gameManager.GetInBattle())
+        if (gameManager.GetInBattle())
 		{
             ShopHide();
+            TowersManagerHide();
             TowersSelectionHide();
             TowerSelectedHide();
         }
@@ -37,11 +45,43 @@ public class ButtonBarService : MonoBehaviour
     public void ShopToggleVisibility()
 	{
         shopWindow.SetActive(!shopWindow.activeSelf);
+
+        // hides another windows
+		if (shopWindow.activeSelf)
+		{
+            TowersManagerHide();
+            TowersSelectionHide();
+            TowerSelectedHide();
+        }
 	}
 
     public void ShopHide()
     {
         shopWindow.SetActive(false);
+    }
+
+    public void TowersManagerToggleVisibility()
+    {
+        bool active = !towersManagerWindow.activeSelf;
+
+        // if its visible refresh tower data
+        if (active)
+        {
+            TowerSelectionService towerSelectionService = towersManagerWindow.GetComponent<TowerSelectionService>();
+            towerSelectionService.RefreshTowerList();
+
+            // hides another windows
+            ShopHide();
+            TowersSelectionHide();
+            TowerSelectedHide();
+        }
+
+        towersManagerWindow.SetActive(active);
+    }
+
+    public void TowersManagerHide()
+    {
+        towersManagerWindow.SetActive(false);
     }
 
     public void TowersSelectionToggleVisibility()
@@ -53,6 +93,11 @@ public class ButtonBarService : MonoBehaviour
         {
             TowerSelectionService towerSelectionService = towersSelectionWindow.GetComponent<TowerSelectionService>();
             towerSelectionService.RefreshTowerList();
+
+            // hides another windows
+            ShopHide();
+            TowersManagerHide();
+            TowerSelectedHide();
         }
 
         towersSelectionWindow.SetActive(active);
@@ -72,6 +117,10 @@ public class ButtonBarService : MonoBehaviour
         {
             TowerSelectionService towerSelectionService = towerSelectedWindow.GetComponent<TowerSelectionService>();
             towerSelectionService.RefreshTowerList();
+
+            ShopHide();
+            TowersManagerHide();
+            TowersSelectionHide();
         }
 
         towerSelectedWindow.SetActive(active);

@@ -58,7 +58,7 @@ public class PlayerTowerRepository : IPlayerTowerRepository
 	{
 		// gets PlayerTower from context
 		DataContext dataContext = await dbContext.GetDataContextAsync();
-		PlayerTower playerTower = dataContext.PlayerTowers.FirstOrDefault(playerTower => playerTower.Id == playerTower.Id);
+		PlayerTower playerTower = dataContext.PlayerTowers.FirstOrDefault(playerTower => playerTower.Id == id);
 
 		// if PlayerTower exists delete it
 		if (playerTower != null)
