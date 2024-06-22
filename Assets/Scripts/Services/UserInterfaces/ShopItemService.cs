@@ -22,6 +22,8 @@ public class ShopItemService : MonoBehaviour
     private TextMeshProUGUI statAreaDamageBoxDescription;
     private GameManager gameManager;
     private Guid currentUserId;
+    private GameObject audioSourceGo;
+    private AudioSourceSoundService audioSourceSoundService;
 
     // injections
     [Inject] private readonly ITowerDataService towerDataService;
@@ -42,6 +44,8 @@ public class ShopItemService : MonoBehaviour
         statAreaDamageBoxDescription = gameObject.GetComponentsInChildren<TextMeshProUGUI>()
             .First(component => component.transform.parent.gameObject.CompareTag(Tags.StatAreaDamageBox));
         gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
+        audioSourceGo = GameObject.FindGameObjectWithTag(Tags.AudioSourceSound);
+        audioSourceSoundService = audioSourceGo.GetComponent<AudioSourceSoundService>();
 
         // gets the current user id
         currentUserId = gameManager.GetCurrentPlayerId();
@@ -70,6 +74,9 @@ public class ShopItemService : MonoBehaviour
 
     public void BuyItem()
 	{
+        // plays sound
+        audioSourceSoundService.PlaySellBuy();
+
         // buys tower
         GenericResponse<PlayerTower> buy = playerTowerDataService.BuyAsync(currentUserId, tower.Id).Result;
         // syncs money player
@@ -82,6 +89,10 @@ public class ShopItemService : MonoBehaviour
 		}
 		else
 		{
+            // plays sound error
+            audioSourceSoundService.PlayError();
+
+            // shows error
             EventViewerService.Instance.AddEventError(buy.ErrorMessage);
         }
     }

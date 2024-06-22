@@ -7,14 +7,17 @@ public class ButtonBarService : MonoBehaviour
     public GameObject towersManagerWindow;
     public GameObject towersSelectionWindow;
     public GameObject towerSelectedWindow;
+    public GameObject audioSourceGo;
 
     // private variables
-    GameManager gameManager;
+    private GameManager gameManager;
+    private AudioSourceSoundService audioSourceSoundService;
 
     // Start is called before the first frame update
     private void Start()
     {
         gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
+        audioSourceSoundService = audioSourceGo.GetComponent<AudioSourceSoundService>();
     }
 
     // Update is called once per frame
@@ -35,34 +38,44 @@ public class ButtonBarService : MonoBehaviour
         // if the battle is on, must hide everything
         if (gameManager.GetInBattle())
 		{
-            ShopHide();
-            TowersManagerHide();
-            TowersSelectionHide();
-            TowerSelectedHide();
+            shopWindow.SetActive(false);
+            towersManagerWindow.SetActive(false);
+            towersSelectionWindow.SetActive(false);
+            towerSelectedWindow.SetActive(false);
         }
     }
 
     public void ShopToggleVisibility()
 	{
-        shopWindow.SetActive(!shopWindow.activeSelf);
+        bool active = !shopWindow.activeSelf;
+        shopWindow.SetActive(active);
+
+        // play sound
+        PlayToggleWindowStatus(active);
 
         // hides another windows
-		if (shopWindow.activeSelf)
+        if (shopWindow.activeSelf)
 		{
-            TowersManagerHide();
-            TowersSelectionHide();
-            TowerSelectedHide();
+            towersManagerWindow.SetActive(false);
+            towersSelectionWindow.SetActive(false);
+            towerSelectedWindow.SetActive(false);
         }
 	}
 
     public void ShopHide()
     {
         shopWindow.SetActive(false);
+
+        // play sound
+        PlayToggleWindowStatus(false);
     }
 
     public void TowersManagerToggleVisibility()
     {
         bool active = !towersManagerWindow.activeSelf;
+
+        // play sound
+        PlayToggleWindowStatus(active);
 
         // if its visible refresh tower data
         if (active)
@@ -71,9 +84,9 @@ public class ButtonBarService : MonoBehaviour
             towerSelectionService.RefreshTowerList();
 
             // hides another windows
-            ShopHide();
-            TowersSelectionHide();
-            TowerSelectedHide();
+            shopWindow.SetActive(false);
+            towersSelectionWindow.SetActive(false);
+            towerSelectedWindow.SetActive(false);
         }
 
         towersManagerWindow.SetActive(active);
@@ -82,11 +95,17 @@ public class ButtonBarService : MonoBehaviour
     public void TowersManagerHide()
     {
         towersManagerWindow.SetActive(false);
+
+        // play sound
+        PlayToggleWindowStatus(false);
     }
 
     public void TowersSelectionToggleVisibility()
     {
         bool active = !towersSelectionWindow.activeSelf;
+
+        // play sound
+        PlayToggleWindowStatus(active);
 
         // if its visible refresh tower data
         if (active)
@@ -95,9 +114,9 @@ public class ButtonBarService : MonoBehaviour
             towerSelectionService.RefreshTowerList();
 
             // hides another windows
-            ShopHide();
-            TowersManagerHide();
-            TowerSelectedHide();
+            shopWindow.SetActive(false);
+            towersManagerWindow.SetActive(false);
+            towerSelectedWindow.SetActive(false);
         }
 
         towersSelectionWindow.SetActive(active);
@@ -106,11 +125,17 @@ public class ButtonBarService : MonoBehaviour
     public void TowersSelectionHide()
     {
         towersSelectionWindow.SetActive(false);
+
+        // play sound
+        PlayToggleWindowStatus(false);
     }
 
     public void TowerSelectedToggleVisibility()
     {
         bool active = !towerSelectedWindow.activeSelf;
+
+        // play sound
+        PlayToggleWindowStatus(active);
 
         // if its visible refresh tower data
         if (active)
@@ -118,9 +143,9 @@ public class ButtonBarService : MonoBehaviour
             TowerSelectionService towerSelectionService = towerSelectedWindow.GetComponent<TowerSelectionService>();
             towerSelectionService.RefreshTowerList();
 
-            ShopHide();
-            TowersManagerHide();
-            TowersSelectionHide();
+            shopWindow.SetActive(false);
+            towersManagerWindow.SetActive(false);
+            towersSelectionWindow.SetActive(false);
         }
 
         towerSelectedWindow.SetActive(active);
@@ -129,5 +154,20 @@ public class ButtonBarService : MonoBehaviour
     public void TowerSelectedHide()
     {
         towerSelectedWindow.SetActive(false);
+
+        // play sound
+        PlayToggleWindowStatus(false);
     }
+
+    private void PlayToggleWindowStatus(bool status)
+	{
+        if (!status)
+		{   
+            audioSourceSoundService.PlayCloseWindow();
+        }
+		else
+		{
+            audioSourceSoundService.PlayOpenWindow();
+        }
+	}
 }

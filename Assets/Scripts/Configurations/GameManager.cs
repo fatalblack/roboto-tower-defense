@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public IPlayerTowerDataService playerTowerDataService;
 
     // private variables
+    private AudioSource audioSource;
     private bool gameStarted;
     private bool gameLost;
     private Player player;
@@ -32,10 +33,12 @@ public class GameManager : MonoBehaviour
     // instance
     public static GameManager Instance { get; private set; }
 
-    private void Awake()
+	private void Awake()
     {
 		if (Instance == null)
         {
+            audioSource = GetComponent<AudioSource>();
+
             // set injections to expose
             playerDataService = playerDataServiceInjection;
             enemyDataService = enemyDataServiceInjection;
@@ -206,6 +209,9 @@ public class GameManager : MonoBehaviour
 
     public void SetCurrentCountdown(DateTime time)
     {
+        // plays sound
+        audioSource.Play();
+
         // sets and format currentCountdown
         currentCountdown = string.Format("Próxima oleada en {0:mm:ss}", time);
     }

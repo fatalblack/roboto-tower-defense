@@ -25,6 +25,8 @@ public class TowerSelectionService : MonoBehaviour
     private RectTransform contentBoxRT;
     private PlayerTower currentTower;
     private PrefabManager prefabManager;
+    private GameObject audioSourceGo;
+    private AudioSourceSoundService audioSourceSoundService;
 
     // injections
     [Inject] private readonly ITowerDataService towerDataService;
@@ -37,6 +39,8 @@ public class TowerSelectionService : MonoBehaviour
         itemPrefabRT = itemPrefab.GetComponent<RectTransform>();
         contentBoxRT = contentBox.GetComponent<RectTransform>();
         prefabManager = GameObject.Find(Tags.PrefabManager).GetComponent<PrefabManager>();
+        audioSourceGo = GameObject.FindGameObjectWithTag(Tags.AudioSourceSound);
+        audioSourceSoundService = audioSourceGo.GetComponent<AudioSourceSoundService>();
 
         // gets the current user id
         currentUserId = gameManager.GetCurrentPlayerId();
@@ -87,6 +91,9 @@ public class TowerSelectionService : MonoBehaviour
 
     public void HideWindow()
 	{
+        // plays sound
+        audioSourceSoundService.PlayCloseWindow();
+
         gameObject.SetActive(false);
 	}
 
@@ -160,6 +167,9 @@ public class TowerSelectionService : MonoBehaviour
 
     private void CallbackSellItem(PlayerTower playerTower, Tower tower)
 	{
+        // plays sound
+        audioSourceSoundService.PlaySellBuy();
+
         // sells tower
         GenericResponse sell = playerTowerDataService.SellAsync(playerTower.Id).Result;
         // syncs money player
@@ -197,6 +207,9 @@ public class TowerSelectionService : MonoBehaviour
         }
         else
         {
+            // plays sound error
+            audioSourceSoundService.PlayError();
+
             // shows the error
             EventViewerService.Instance.AddEventError(sell.ErrorMessage);
         }
@@ -204,6 +217,9 @@ public class TowerSelectionService : MonoBehaviour
 
     private void CallbackSetTowerPosition(PlayerTower playerTower, Tower tower)
     {
+        // plays sound
+        audioSourceSoundService.PlayEquipItem();
+
         GenericResponse<PlayerTower> setPosition = playerTowerDataService.SetPositionAsync(playerTower.Id, indexColumn, indexRow).Result;
 
         if (setPosition.IsSucceeded)
@@ -231,6 +247,9 @@ public class TowerSelectionService : MonoBehaviour
         }
         else
         {
+            // plays sound error
+            audioSourceSoundService.PlayError();
+
             // shows the error
             EventViewerService.Instance.AddEventError(setPosition.ErrorMessage);
         }
@@ -239,6 +258,9 @@ public class TowerSelectionService : MonoBehaviour
     private void CallbackRemoveTowerPosition(PlayerTower playerTower)
     {
         GenericResponse<PlayerTower> removePosition = playerTowerDataService.RemovePositionAsync(playerTower.Id).Result;
+
+        // plays sound
+        audioSourceSoundService.PlayQuitItem();
 
         // gets the tower gameobject from the slot
         Transform currentTowerInSlot = currentSlot.GetComponentsInChildren<Transform>().FirstOrDefault(tower => tower.CompareTag(Tags.Tower));
@@ -284,6 +306,9 @@ public class TowerSelectionService : MonoBehaviour
 
     private void CallbackUpgradeTower(PlayerTower playerTower)
     {
+        // plays sound
+        audioSourceSoundService.PlayEquipItem();
+
         // upgrades the tower
         GenericResponse<PlayerTower> upgradedTower = playerTowerDataService.UpgradeAsync(playerTower.Id).Result;
         // syncs money player

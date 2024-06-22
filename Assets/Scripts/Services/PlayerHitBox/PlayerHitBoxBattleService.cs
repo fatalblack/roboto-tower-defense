@@ -7,6 +7,8 @@ public class PlayerHitBoxBattleService : MonoBehaviour
     // private variables
     private GameManager gameManager;
     private Guid currentUserId;
+    private GameObject audioSourceGo;
+    private AudioSourceSoundService audioSourceSoundService;
 
     // injections
     [Inject] private readonly IPlayerDataService playerDataService;
@@ -15,6 +17,8 @@ public class PlayerHitBoxBattleService : MonoBehaviour
     private void Start()
     {
         gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
+        audioSourceGo = GameObject.FindGameObjectWithTag(Tags.AudioSourceSound);
+        audioSourceSoundService = audioSourceGo.GetComponent<AudioSourceSoundService>();
 
         // gets the current user id
         currentUserId = gameManager.GetCurrentPlayerId();
@@ -31,6 +35,9 @@ public class PlayerHitBoxBattleService : MonoBehaviour
         // if collides against an enemy destroy it and damage the player
         if (other.gameObject.CompareTag(Tags.Enemy))
 		{
+            // plays sound
+            audioSourceSoundService.PlayError();
+
             // damages player
             Player player = playerDataService.Damage(currentUserId).Result.Value;
 

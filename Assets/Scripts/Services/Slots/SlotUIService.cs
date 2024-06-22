@@ -17,6 +17,8 @@ public class SlotUIService : MonoBehaviour
     private GameManager gameManager;
     private bool inBattle;
     private bool isEmptySlot;
+    private GameObject audioSourceGo;
+    private AudioSourceSoundService audioSourceSoundService;
 
     // Start is called before the first frame update
     private void Start()
@@ -25,6 +27,8 @@ public class SlotUIService : MonoBehaviour
         gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
         inBattle = gameManager.GetInBattle();
         isEmptySlot = slotBattleService.GetIsEmptySlot();
+        audioSourceGo = GameObject.FindGameObjectWithTag(Tags.AudioSourceSound);
+        audioSourceSoundService = audioSourceGo.GetComponent<AudioSourceSoundService>();
     }
 
 	private void OnMouseDown()
@@ -32,6 +36,9 @@ public class SlotUIService : MonoBehaviour
         // just can manage towers if the player is not in battle 
 		if (!inBattle && !IsPointerOverUIObject())
 		{
+            // plays sound
+            audioSourceSoundService.PlayOpenWindow();
+
             // refresh info about if the slot is empty
             isEmptySlot = slotBattleService.GetIsEmptySlot();
 
