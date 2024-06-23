@@ -7,6 +7,8 @@ public class ButtonBarService : MonoBehaviour
     public GameObject towersManagerWindow;
     public GameObject towersSelectionWindow;
     public GameObject towerSelectedWindow;
+    public GameObject guideWindow;
+    public GameObject creditsWindow;
     public GameObject audioSourceGo;
 
     // private variables
@@ -35,6 +37,18 @@ public class ButtonBarService : MonoBehaviour
             TowersManagerToggleVisibility();
         }
 
+        // if we press G will toggles guide window visibility
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            GuideToggleVisibility();
+        }
+
+        // if we press C will toggles credits window visibility
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CreditsToggleVisibility();
+        }
+
         // if the battle is on, must hide everything
         if (gameManager.GetInBattle())
 		{
@@ -42,6 +56,8 @@ public class ButtonBarService : MonoBehaviour
             towersManagerWindow.SetActive(false);
             towersSelectionWindow.SetActive(false);
             towerSelectedWindow.SetActive(false);
+            guideWindow.SetActive(false);
+            creditsWindow.SetActive(false);
         }
     }
 
@@ -154,6 +170,52 @@ public class ButtonBarService : MonoBehaviour
     public void TowerSelectedHide()
     {
         towerSelectedWindow.SetActive(false);
+
+        // play sound
+        PlayToggleWindowStatus(false);
+    }
+
+    public void GuideToggleVisibility()
+    {
+        bool active = !guideWindow.activeSelf;
+        guideWindow.SetActive(active);
+
+        // if its visible close another info windows
+        if (active)
+        {
+            creditsWindow.SetActive(false);
+        }
+
+        // play sound
+        PlayToggleWindowStatus(active);
+    }
+
+    public void GuideHide()
+    {
+        guideWindow.SetActive(false);
+
+        // play sound
+        PlayToggleWindowStatus(false);
+    }
+
+    public void CreditsToggleVisibility()
+    {
+        bool active = !creditsWindow.activeSelf;
+        creditsWindow.SetActive(active);
+
+        // if its visible close another info windows
+        if (active)
+        {
+            guideWindow.SetActive(false);
+        }
+
+        // play sound
+        PlayToggleWindowStatus(active);
+    }
+
+    public void CreditsHide()
+    {
+        creditsWindow.SetActive(false);
 
         // play sound
         PlayToggleWindowStatus(false);
