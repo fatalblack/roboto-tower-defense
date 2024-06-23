@@ -13,6 +13,7 @@ public class EnemyBattleService : MonoBehaviour
     private EnemyStatsResult enemyStats;
     private GameManager gameManager;
     private Directions? lastRotationDirection;
+    private float randomPositionFactor = 0;
 
     // Start is called before the first frame update
     private void Awake()
@@ -20,6 +21,8 @@ public class EnemyBattleService : MonoBehaviour
         gameManager = GameObject.Find(Tags.GameManager).GetComponent<GameManager>();
 
         enemy = gameManager.enemyDataService.GetByCodeAsync(enemyCode).Result;
+
+        randomPositionFactor = transform.position.z;
 
         // recalculate stats
         RecalculateAll();
@@ -85,7 +88,11 @@ public class EnemyBattleService : MonoBehaviour
             GameObject nextRoad = roadBattleService.nextRoad;
 
             // calculates the destiny position to move the enemy
-            Vector3 destinyPosition = nextRoad.transform.position - transform.position;
+            Vector3 nextRoadPosition = new Vector3(
+                nextRoad.transform.position.x,
+                nextRoad.transform.position.y,
+                nextRoad.transform.position.z - randomPositionFactor);
+            Vector3 destinyPosition = nextRoadPosition - transform.position;
             destinyPosition = new Vector3(
                 destinyPosition.x * GameDefaults.enemyMoveSpeedFactor,
                 0,

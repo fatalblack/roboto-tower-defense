@@ -4,7 +4,7 @@ public static class GameDefaults
 
 	public static int playerInitialGold = 150;
 
-	public static float shootingAreaBase = 6f;
+	public static float shootingAreaBase = 7f;
 
 	public static int countdownTimeInSeconds = 20;
 

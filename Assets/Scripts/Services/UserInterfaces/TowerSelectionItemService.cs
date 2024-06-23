@@ -27,6 +27,7 @@ public class TowerSelectionItemService : MonoBehaviour
     private Guid currentUserId;
     private SpriteManager spriteManager;
     private int sellingPrice;
+    private int upgradePrice;
     private Guid playerTowerId;
     private int level;
 
@@ -52,6 +53,9 @@ public class TowerSelectionItemService : MonoBehaviour
 
         // calculates and set selling price
         SetSellingPrice();
+
+        // calculates and set upgrade price
+        SetUpgradePrice();
 
         // Sets the current sprite
         SetSprite();
@@ -111,6 +115,15 @@ public class TowerSelectionItemService : MonoBehaviour
             tower.Characteristic.UpgradeCostMultiplierByLevel);
     }
 
+    private void SetUpgradePrice()
+    {
+        // calculates selling price
+        upgradePrice = PlayerTowerCalculations.CalculateUpgradeCost(
+            playerTower.TowerLevel + 1,
+            tower.Characteristic.UpgradeCost,
+            tower.Characteristic.UpgradeCostMultiplierByLevel);
+    }
+
     private void SetSprite()
 	{
         switch (tower.Code)
@@ -139,7 +152,7 @@ public class TowerSelectionItemService : MonoBehaviour
     private void SetItemName()
     {
         // Changes the item name for the provided tower
-        itemName.text = $"{tower.Name} (Nv. {level})";
+        itemName.text = $"<size=90%>{tower.Name} <size=70%>nv{level} (nv{level+1} ${upgradePrice})";
     }
 
     private void SetItemDescription()
@@ -169,6 +182,7 @@ public class TowerSelectionItemService : MonoBehaviour
     private void SetStatAreaDamageBoxDescription(TowerStatsResult towerStatsResult)
     {
         // Changes the stat area damage description for the provided tower
-        statAreaDamageBoxDescription.text = towerStatsResult.DamageInArea ? "SÍ" : "NO";
+        //statAreaDamageBoxDescription.text = towerStatsResult.DamageInArea ? "SÍ" : "NO";
+        statAreaDamageBoxDescription.text = towerStatsResult.Range.ToString();
     }
 }

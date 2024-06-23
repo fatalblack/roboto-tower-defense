@@ -136,6 +136,7 @@ public class ShopItemService : MonoBehaviour
     private void SetStatAreaDamageBoxDescription()
     {
         // Changes the stat area damage description for the provided tower
-        statAreaDamageBoxDescription.text = tower.Characteristic.DamageInArea ? "SÍ" : "NO";
+        //statAreaDamageBoxDescription.text = tower.Characteristic.DamageInArea ? "SÍ" : "NO";
+        statAreaDamageBoxDescription.text = tower.Characteristic.Range.ToString();
     }
 }
